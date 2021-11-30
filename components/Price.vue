@@ -10,10 +10,10 @@
 
       <div v-for="product in products" :key="product.id" class="product bg-gray-100 mb-16" style="width: 260px; height: 260px">
         <div class="image">
-          <img :src=product.image style="width: 150px; height: 150px" class="mx-auto my-7" alt="">
+          <img :src="require(`@/assets/products/${getProductImage(product.type)}`)" style="width: 150px; height: 150px" class="mx-auto my-7" alt="">
         </div>
         <div class="flex justify-between px-4 mt-10">
-          <p class="font-normal font-opensans truncate" style="max-width: 100px">{{product.title}}</p>
+          <p class="font-normal font-opensans truncate" style="max-width: 100px">{{product.name}}</p>
           <p class="font-normal font-opensans">от {{ product.price}} ₽/шт</p>
         </div>
       </div>
@@ -31,16 +31,32 @@
 export default {
   data: () => ({
     products: [],
-    loading: false
+    loading: false,
+
+    productImage: {
+      't-shirts': 't-shirt.png',
+      'outerwear': 'outerwear.png',
+      'carpet cleaning': 'cleaning.png',
+      'household': 'household.png',
+      'laundry': 'laundry.png',
+      'pants': 'pants.png',
+      'shoe shine': 'shoe.png',
+      'skirts': 'skirts.png',
+    }
   }),
   async mounted() {
     this.loading = true
 
-    const prod = await this.$axios.get('https://fakestoreapi.com/products?limit=8')
-    this.products = prod.data
+    const prod = await this.$axios.get('/api/products')
+    this.products = prod.data.data
 
     this.loading = false
   },
+  methods: {
+    getProductImage(productType) {
+      return this.productImage[productType]
+    }
+  }
 }
 </script>
 

@@ -1,5 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  target: 'server',
+
   head: {
     title: 'lasure-coast',
     htmlAttrs: {
@@ -39,5 +41,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+  serverMiddleware: [
+    '~serverMiddleware/api', {
+      path: 'api',
+      handler: '~/serverMiddleware/api'
+    }
+  ],
 }
